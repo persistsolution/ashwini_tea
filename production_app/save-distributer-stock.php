@@ -35,7 +35,7 @@ else{
 $CreatedDate = date('Y-m-d H:i:s');
 $sql = "SELECT COALESCE(MAX(SrNo), 0) + 1 AS NextId FROM tbl_distributer_inv";
 $row = getRecord($sql);
-$InvNo = "P00".$row['NextId'];
+$InvNo = "D00".$row['NextId'];
 $SrNo = $row['NextId'];
 $sql = "INSERT INTO tbl_distributer_inv SET DistId='$DistId',ProductionId='$user_id',SrNo='$SrNo',InvNo='$InvNo',StockDate='$StockDate',TotalQty='$TotQty',Narration='$Narration',bill='$bill',CreatedBy='$user_id',CreatedDate='$CreatedDate'";
 $conn->query($sql);

@@ -68,7 +68,7 @@ function isActive($file){
 
             <!-- Transfer To Distributors -->
             <li class="nav-item">
-                <a class="nav-link <?php echo isActive('view-trasnfer-to-distributers.php'); ?>" href="view-trasnfer-to-distributers.php">
+                <a class="nav-link <?php echo isActive('view-transfer-to-distributers.php'); ?>" href="view-transfer-to-distributers.php">
                     <div class="left">
                         <span class="menu-icon-wrap">
                             <span class="material-icons-round menu-icon">local_shipping</span>

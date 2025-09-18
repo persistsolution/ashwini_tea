@@ -150,7 +150,7 @@ label::before {
                     <p>Home</p>
                 </a>
             </div>
-            <div class="col-auto">
+            <!-- <div class="col-auto">
                 <a href="prod-category.php" class="">
                     <i class="material-icons">ballot</i>
                     <p>Category</p>
@@ -161,13 +161,13 @@ label::before {
                     <i class="material-icons">qr_code_scanner</i>
                     <p>Scan QR Code</p>
                 </a>
-            </div>
+            </div>-->
             <div class="col-auto">
                 <a href="product-lists.php" class="">
                     <i class="material-icons">inventory_2</i>
-                    <p>Products</p>
+                    <p>Production</p>
                 </a>
-            </div>
+            </div> 
             
             <div class="col-auto">
                 <a href="profile.php">
