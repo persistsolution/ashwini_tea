@@ -282,7 +282,7 @@ div.scrollmenu a:hover {
 <?php } ?>
 </a>
 </li>
-<li class="sidenav-item">
+<!-- <li class="sidenav-item">
 <a href="view-production.php" class="sidenav-link">
 <div> Production</div>
 <?php if($Page=='View-Production') {?>
@@ -291,7 +291,7 @@ div.scrollmenu a:hover {
 </div>
 <?php } ?>
 </a>
-</li>
+</li> -->
 </ul>
 </li>
 
