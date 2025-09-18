@@ -95,7 +95,7 @@ if($_REQUEST["action"]=="delete")
                 <?php if(in_array("10", $Options) || in_array("11", $Options)) {?>
             <td>
               <?php if(in_array("10", $Options)){?>
-              <a href="add-production.php?id=<?php echo $row['id']; ?>"><i class="lnr lnr-pencil mr-2"></i></a>
+              <a href="add-distributer.php?id=<?php echo $row['id']; ?>"><i class="lnr lnr-pencil mr-2"></i></a>
              <?php } if(in_array("11", $Options)){?>
               &nbsp;&nbsp;<a onClick="return confirm('Are you sure you want delete this production account?\nNote : Delete all record related this production (Y/N)');" href="<?php echo $_SERVER['PHP_SELF']; ?>?id=<?php echo $row['id']; ?>&action=delete"><i class="lnr lnr-trash text-danger"></i></a>
              <?php } ?>

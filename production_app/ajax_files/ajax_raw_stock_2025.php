@@ -53,4 +53,13 @@ FROM `tbl_cust_prod_stock_2025` WHERE ProdId='$id' AND ProdType=1 AND FrId='$fri
 	    echo json_encode(array('Unit'=>$Unit,'Unit2'=>$Unit2,'balqty'=>0));
 	}
 }
+
+if($_POST['action'] == 'getAvailGodownProdStock'){
+	$id = $_POST['id'];
+
+	 $sql = "SELECT sum(creditqty)-sum(debitqty) AS balqty FROM (SELECT (case when Status='Dr' then sum(Qty) else '0' end) as debitqty,(case when Status='Cr' then sum(Qty) else '0' end) as creditqty FROM `tbl_production_stock` WHERE ProdId='$id' AND FrId='$user_id' GROUP by Status) as a";
+	$row = getRecord($sql);
+	echo $row['balqty'];
+}
+
 ?>

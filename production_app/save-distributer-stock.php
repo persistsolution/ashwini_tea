@@ -16,7 +16,7 @@ $StockDate = addslashes(trim($_POST['StockDate']));
     $CreatedDate = date('Y-m-d');
     $Narration = addslashes(trim($_POST['Narration']));
     $TotQty = addslashes(trim($_POST['TotQty']));
-    $VedId = addslashes(trim($_POST['VedId']));
+    $DistId = addslashes(trim($_POST['DistId']));
 $randno = rand(1,100);
 $src = $_FILES['bill']['tmp_name'];
 $fnm = substr($_FILES["bill"]["name"], 0,strrpos($_FILES["bill"]["name"],'.')); 
@@ -33,11 +33,11 @@ else{
 }
 
 $CreatedDate = date('Y-m-d H:i:s');
-$sql = "SELECT COALESCE(MAX(SrNo), 0) + 1 AS NextId FROM tbl_production_inv";
+$sql = "SELECT COALESCE(MAX(SrNo), 0) + 1 AS NextId FROM tbl_distributer_inv";
 $row = getRecord($sql);
 $InvNo = "P00".$row['NextId'];
 $SrNo = $row['NextId'];
-$sql = "INSERT INTO tbl_production_inv SET VedId='$VedId',FrId='$user_id',SrNo='$SrNo',InvNo='$InvNo',StockDate='$StockDate',TotalQty='$TotQty',Narration='$Narration',bill='$bill',CreatedBy='$user_id',CreatedDate='$CreatedDate'";
+$sql = "INSERT INTO tbl_distributer_inv SET DistId='$DistId',ProductionId='$user_id',SrNo='$SrNo',InvNo='$InvNo',StockDate='$StockDate',TotalQty='$TotQty',Narration='$Narration',bill='$bill',CreatedBy='$user_id',CreatedDate='$CreatedDate'";
 $conn->query($sql);
 $SaveInvId = mysqli_insert_id($conn);
         foreach ($_SESSION["cart_item"] as $product) {
@@ -45,11 +45,14 @@ $SaveInvId = mysqli_insert_id($conn);
     $Qty = addslashes(trim($product['Qty']));
     $PurchasePrice = addslashes(trim($product['PurchasePrice']));
     $SellPrice = addslashes(trim($product['SellPrice']));
-     $qx = "INSERT INTO tbl_production_stock SET FrId='$user_id',UserId='$user_id',InvId='$SaveInvId',ProdId='$ProdId',Qty='$Qty',CreatedBy='$user_id',StockDate='$StockDate',Narration='$Narration',Status='Cr',CreatedDate='$CreatedDate',PurchasePrice='$PurchasePrice',SellPrice='$SellPrice',PurchaseQty='$Qty',PurchaseComment='Pending'";
+    $qx = "INSERT INTO tbl_distributer_stock SET ProductionId='$user_id',DistId='$DistId',InvId='$SaveInvId',ProdId='$ProdId',Qty='$Qty',CreatedBy='$user_id',StockDate='$StockDate',Narration='$Narration',Status='Cr',CreatedDate='$CreatedDate',PurchasePrice='$PurchasePrice',SellPrice='$SellPrice'";
+       $conn->query($qx);
+
+     $qx = "INSERT INTO tbl_production_stock SET UserId='$user_id',DistId='$DistId',InvId='$SaveInvId',ProdId='$ProdId',Qty='$Qty',CreatedBy='$user_id',StockDate='$StockDate',Narration='$Narration',Status='Dr',CreatedDate='$CreatedDate',FrId='$user_id',PurchasePrice='$PurchasePrice',SellPrice='$SellPrice',PurchaseQty='$Qty',PurchaseComment='Trasfer to distributer'";
        $conn->query($qx);
      
         }
         
         unset($_SESSION["cart_item"]);
-      echo "<script>alert('Production Done Successfully!');window.location.href='view-productions.php';</script>";
+      echo "<script>alert('Stock Transfer To Distributter Successfully!');window.location.href='view-transfer-to-distributers.php';</script>";
       ?>

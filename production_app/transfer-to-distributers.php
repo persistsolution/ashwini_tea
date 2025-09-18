@@ -17,12 +17,6 @@ $row = getRecord($sql11);
 $_SESSION['User'] = $row;
 }
 
-if($_REQUEST['frid']!=''){
-    $_SESSION['FranchiseId'] = $_REQUEST['frid'];
-}
-$FranchiseId = $_SESSION['FranchiseId'];
-$sql55 = "SELECT * FROM tbl_users_bill WHERE id='$FranchiseId'";
-$row55 = getRecord($sql55);
 
 function RandomStringGenerator($n)
     {
@@ -157,12 +151,23 @@ foreach($row as $result){
             <div class="container">
               
                 <div class="card mb-4">
-                    <form id="validation-form" method="post" enctype="multipart/form-data" action="save-production-stock.php">
+                    <form id="validation-form" method="post" enctype="multipart/form-data" action="save-distributer-stock.php">
                         <div class="card-body">
 <div class="form-row">
 
  
-    
+    <div class="form-group col-md-12">
+          <label>Distributers <span class="text-danger">*</span></label>
+          <input type="text" class="form-control" name="DistName" id="DistName" placeholder="Search Distributer Name..." value="" autofocus onclick="this.select();">
+          <div id="autocomplete-list2" class="autocomplete-list" style="display: none; position: absolute;"></div>
+        </div>
+
+        <!-- Vendor ID -->
+        <div class="form-group col-md-6">
+          <label>Distributer ID <span class="text-danger">*</span></label>
+          <input type="text" class="form-control" name="DistId" id="DistId" value="<?php echo $row7['DistId']; ?>" readonly>
+        </div>
+
     <div class="form-group col-md-12">
           <label>Product <span class="text-danger">*</span></label>
           <input type="text" class="form-control" name="ProdName" id="ProdName" placeholder="Search Product Name..." value="" autofocus onclick="this.select();">
@@ -170,13 +175,18 @@ foreach($row as $result){
         </div>
 
         <!-- Vendor ID -->
-        <div class="form-group col-md-6">
-          <label>Product ID <span class="text-danger">*</span></label>
+        <div class="form-group col-md-6 col-3">
+          <label>Prod ID <span class="text-danger">*</span></label>
           <input type="text" class="form-control" name="ProdId" id="ProdId" value="<?php echo $row7['ProdId']; ?>" readonly>
         </div>
 
-    <div class="form-group col-md-2 col-6">
-<label class="form-label">Production Qty </label>
+        <div class="form-group col-md-6 col-5">
+          <label>Available Stock <span class="text-danger">*</span></label>
+          <input type="text" class="form-control" name="AvailStock" id="AvailStock" value="<?php echo $row7['ProdId']; ?>" readonly>
+        </div>
+
+    <div class="form-group col-md-2 col-4">
+<label class="form-label">Transfer Stock </label>
 <input type="text" name="Qty" id="Qty" class="form-control" placeholder="" value="<?php echo $row7["Qty"]; ?>" autocomplete="off" >
 <div class="clearfix"></div>
     </div>
@@ -185,7 +195,7 @@ foreach($row as $result){
 
 
     <input type="hidden" name="code" id="code" class="form-control" placeholder="" value="" autocomplete="off" readonly>
-    <div class="form-group col-md-2 col-6" style="padding-top: 25px;">
+    <div class="form-group col-md-2 col-6">
     <button type="button" id="add" class="btn btn-success btn-finish" onclick="addToCart()">Add</button>
 </div>
 
@@ -352,7 +362,97 @@ let currentFocus = -1;
                 }
             });
         });
+
+
+
+        let currentFocus2 = -1;
+
+        $(document).ready(function() {
+            $("#DistName").on("input", function() {
+                let DistName = $(this).val();
+                if (DistName === '') {
+    $('#DistId').val('');   // properly clear hidden product id
+    
+    
+    
+}
+               
+                if (DistName.length === 0) {
+                    $("#autocomplete-list2").hide();
+                    return;
+                }
+                var action = "getDistributerList";
+                $.ajax({
+                    url: "ajax_files/ajax_dropdown.php",
+                    method: "POST",
+                    data: {
+                        action: action,
+                        DistName: DistName
+                    },
+                    success: function(data) {
+                        console.log(data);
+                        $("#autocomplete-list2").empty().show();
+                        currentFocus2 = -1;
+
+                        if (data.length === 0) {
+                            $("#autocomplete-list2").hide();
+                            return;
+                        }
+
+                        data.forEach(function(item) {
+                            $("#autocomplete-list2").append(`<div class="autocomplete-item" onclick="getDistDetails(${item.id})">${item.Fname} (${item.Zone})</div>`);
+                        });
+
+                        $(".autocomplete-item").on("click", function() {
+                            $("#DistName").val($(this).text());
+                            $("#autocomplete-list2").hide();
+                        });
+                    }
+                });
+            });
+
+            $("#DistName").on("keydown", function(e) {
+                let items = $(".autocomplete-item");
+
+                if (e.key === "ArrowDown") {
+                    currentFocus2++;
+                    if (currentFocus2 >= items.length) currentFocus2 = 0;
+                    setActive(items);
+                    e.preventDefault();
+                } else if (e.key === "ArrowUp") {
+                    currentFocus2--;
+                    if (currentFocus2 < 0) currentFocus2 = items.length - 1;
+                    setActive(items);
+                    e.preventDefault();
+                } else if (e.key === "Enter") {
+                    e.preventDefault();
+                    if (currentFocus2 > -1 && items[currentFocus2]) {
+                        items.eq(currentFocus2).click();
+                    }
+                }
+            });
+
+            function setActive(items) {
+                items.removeClass("active");
+                if (currentFocus2 >= 0 && currentFocus2 < items.length) {
+                    items.eq(currentFocus2).addClass("active");
+                    items.eq(currentFocus2)[0].scrollIntoView({
+                        block: "nearest"
+                    });
+                }
+            }
+
+            $(document).click(function(e) {
+                if (!$(e.target).closest("#DistName, #autocomplete-list2").length) {
+                    $("#autocomplete-list2").hide();
+                }
+            });
+        });
         
+         function getDistDetails(id){
+    $('#DistId').val(id);
+ }
+
  function addToCart(){
      var action = "addToCart";
      var code = $('#code').val();
@@ -473,10 +573,12 @@ let currentFocus = -1;
                 }
             });
  }
+
+
   function getAvailProdStock(id){
       $('#ProdId').val(id);
       getProdDetails(id);
-     var action = "getAvailProdStock";
+     var action = "getAvailGodownProdStock";
             $.ajax({
                 url: "ajax_files/ajax_raw_stock_2025.php",
                 method: "POST",

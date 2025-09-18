@@ -2,7 +2,7 @@
 session_start();
 include_once '../config.php';
 if($_POST['action'] == 'getState'){?>
-	<option value="" selected="selected" disabled="">Select State</option>
+<option value="" selected="selected" disabled="">Select State</option>
 <?php 
 	$CountryId = $_POST['id'];
         $q = "select * from tbl_state WHERE CountryId = '$CountryId' AND Status='1'";
@@ -10,11 +10,11 @@ if($_POST['action'] == 'getState'){?>
         while($rw = $r->fetch_assoc())
     {
 ?>
-                <option value="<?php echo $rw['id']; ?>"><?php echo $rw['Name']; ?></option>
+<option value="<?php echo $rw['id']; ?>"><?php echo $rw['Name']; ?></option>
 <?php } } 
 
 if($_POST['action'] == 'getCity'){?>
-	<option value="" selected="selected" disabled="">Select City</option>
+<option value="" selected="selected" disabled="">Select City</option>
 <?php 
 	$StateId = $_POST['id'];
         $q = "select * from tbl_city WHERE StateId = '$StateId' AND Status='1'";
@@ -26,7 +26,7 @@ if($_POST['action'] == 'getCity'){?>
 <?php } } 
 
 if($_POST['action'] == 'getArea'){?>
-    <option value="" selected="selected" disabled="">Select Area</option>
+<option value="" selected="selected" disabled="">Select Area</option>
 <?php 
     $CityId = $_POST['id'];
         $q = "select * from tbl_area WHERE CityId = '$CityId' AND Status='1'";
@@ -70,7 +70,7 @@ if($_POST['action'] == 'getAccNo'){
 } 
 
 if($_POST['action'] == 'getProduct'){?>
-	<option value="" selected="selected" disabled="">Select Product</option>
+<option value="" selected="selected" disabled="">Select Product</option>
 <?php 
 	$CatId = $_POST['catid'];
 	$SubCatId = $_POST['subcatid'];
@@ -80,11 +80,11 @@ if($_POST['action'] == 'getProduct'){?>
         while($rw = $r->fetch_assoc())
     {
 ?>
-                <option value="<?php echo $rw['id']; ?>"><?php echo $rw['ProductName']; ?></option>
+<option value="<?php echo $rw['id']; ?>"><?php echo $rw['ProductName']; ?></option>
 <?php } }  
 
 if($_POST['action'] == 'getRawProduct'){?>
-	<option value="" selected="selected" disabled="">Select Product</option>
+<option value="" selected="selected" disabled="">Select Product</option>
 <?php 
 	$CatId = $_POST['catid'];
 	$SubCatId = $_POST['subcatid'];
@@ -94,12 +94,12 @@ if($_POST['action'] == 'getRawProduct'){?>
         while($rw = $r->fetch_assoc())
     {
 ?>
-                <option value="<?php echo $rw['id']; ?>"><?php echo $rw['ProductName']; ?></option>
+<option value="<?php echo $rw['id']; ?>"><?php echo $rw['ProductName']; ?></option>
 <?php } } 
 
 
 if($_POST['action'] == 'getSubCat'){?>
-	<option value="" selected="selected" disabled="">Select Sub Catgeory</option>
+<option value="" selected="selected" disabled="">Select Sub Catgeory</option>
 <?php 
 	$CatId = $_POST['catid'];
 	$FranchiseId = $_SESSION['FranchiseId'];
@@ -108,7 +108,7 @@ if($_POST['action'] == 'getSubCat'){?>
         while($rw = $r->fetch_assoc())
     {
 ?>
-                <option value="<?php echo $rw['id']; ?>"><?php echo $rw['Name']; ?></option>
+<option value="<?php echo $rw['id']; ?>"><?php echo $rw['Name']; ?></option>
 <?php } } 
 
  if($_POST['action'] == 'getProdList'){
@@ -192,6 +192,28 @@ $q.=" ORDER BY ProductName";
             'id' => $rw['id'],
             'ProductName' => $rw['ProductName'],
             'MinPrice' => $rw['MinPrice']
+        ];
+    }
+
+    header('Content-Type: application/json');
+    echo json_encode($data);
+    exit;
+    } 
+
+     if($_POST['action'] == 'getDistributerList'){
+        
+        $DistName = $_POST['DistName'];
+    $data = [];
+
+$q = "SELECT tu.id,tu.Fname,tz.Name FROM tbl_users_bill tu LEFT JOIN tbl_zone tz ON tu.ZoneId=tz.id WHERE tu.Status='1' AND tu.Roll IN(166) AND (tu.Fname LIKE '%$DistName%' OR tz.Name LIKE '%$DistName%' )";
+$q.=" ORDER BY tu.Fname";
+    $r = $conn->query($q);
+
+   while ($rw = $r->fetch_assoc()) {
+        $data[] = [
+            'id' => $rw['id'],
+            'Fname' => $rw['Fname'],
+            'Zone' => $rw['Name']
         ];
     }
 
