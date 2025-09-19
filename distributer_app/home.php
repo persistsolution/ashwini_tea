@@ -111,10 +111,19 @@ $row55 = getRecord($sql55);
 
                    <!-- Production -->
 <div class="col-4 col-md-3">
-    <a href="view-productions.php" class="text-decoration-none">
+    <a href="view-receive-stock-from-production.php" class="text-decoration-none">
         <div class="menu-card">
          <i class="fas fa-industry"></i>
-            <p>Production</p>
+            <p>Receive Stock From Production</p>
+        </div>
+    </a>
+</div>
+
+<div class="col-4 col-md-3">
+    <a href="view-transfer-to-distributers.php" class="text-decoration-none">
+        <div class="menu-card">
+            <i class="fas fa-truck-arrow-right"></i>
+            <p>Franchise Stock Requests</p>
         </div>
     </a>
 </div>
@@ -124,13 +133,13 @@ $row55 = getRecord($sql55);
     <a href="view-transfer-to-distributers.php" class="text-decoration-none">
         <div class="menu-card">
             <i class="fas fa-truck-arrow-right"></i>
-            <p>Transfer To Distributors</p>
+            <p>Transfer To Franchise</p>
         </div>
     </a>
 </div>
 
 <!-- Logout -->
-<div class="col-4 col-md-3">
+<div class="col-4 col-md-3" style="padding-top: 10px;">
     <a href="logout.php" class="text-decoration-none">
         <div class="menu-card">
             <i class="fas fa-arrow-right-from-bracket"></i>

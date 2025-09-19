@@ -45,8 +45,8 @@ $SaveInvId = mysqli_insert_id($conn);
     $Qty = addslashes(trim($product['Qty']));
     $PurchasePrice = addslashes(trim($product['PurchasePrice']));
     $SellPrice = addslashes(trim($product['SellPrice']));
-    $qx = "INSERT INTO tbl_distributer_stock SET ProductionId='$user_id',DistId='$DistId',InvId='$SaveInvId',ProdId='$ProdId',Qty='$Qty',CreatedBy='$user_id',StockDate='$StockDate',Narration='$Narration',Status='Cr',CreatedDate='$CreatedDate',PurchasePrice='$PurchasePrice',SellPrice='$SellPrice'";
-       $conn->query($qx);
+    $qx = "INSERT INTO tbl_distributer_stock_temp SET ProductionId='$user_id',DistId='$DistId',InvId='$SaveInvId',ProdId='$ProdId',Qty='$Qty',CreatedBy='$user_id',StockDate='$StockDate',Narration='$Narration',Status='Cr',CreatedDate='$CreatedDate',PurchasePrice='$PurchasePrice',SellPrice='$SellPrice'";
+    $conn->query($qx);
 
      $qx = "INSERT INTO tbl_production_stock SET UserId='$user_id',DistId='$DistId',InvId='$SaveInvId',ProdId='$ProdId',Qty='$Qty',CreatedBy='$user_id',StockDate='$StockDate',Narration='$Narration',Status='Dr',CreatedDate='$CreatedDate',FrId='$user_id',PurchasePrice='$PurchasePrice',SellPrice='$SellPrice',PurchaseQty='$Qty',PurchaseComment='Trasfer to distributer'";
        $conn->query($qx);

@@ -140,10 +140,10 @@ unset($_SESSION["cart_item"]);
 
                 foreach($row as $result){
                     $invId = $result['id'];
-                    $sqlItems = "SELECT * FROM tbl_distributer_stock WHERE InvId = '$invId'";
+                    $sqlItems = "SELECT * FROM tbl_distributer_stock_temp WHERE InvId = '$invId'";
                     $totalProducts = getRow($sqlItems);
 
-                    $sqlItems2 = "SELECT SUM(Qty) AS TotQty FROM tbl_distributer_stock WHERE InvId = '$invId'";
+                    $sqlItems2 = "SELECT SUM(Qty) AS TotQty FROM tbl_distributer_stock_temp WHERE InvId = '$invId'";
                     $totalProductsQty = getRecord($sqlItems2);
                 ?>
                 <div class="card mb-3 status-card shadow-sm">

@@ -122,7 +122,7 @@ $Page = "Recharge";
                 <?php
 $id = isset($_GET['id']) ? $_GET['id'] : 0;
 $sql = "SELECT ts.*, p.ProductName, p.MinQty
-        FROM tbl_distributer_stock ts
+        FROM tbl_distributer_stock_temp ts
         INNER JOIN tbl_cust_products2 p ON ts.ProdId = p.id
         WHERE ts.InvId = '$id' AND ts.Status='Cr'";
 $rows = getList($sql);
